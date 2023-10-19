@@ -1,4 +1,5 @@
 import React from 'react';
+import Swal from 'sweetalert2'
 
 export default function AddCoffee() {
 
@@ -10,12 +11,13 @@ export default function AddCoffee() {
         const price = form.price.value;
         const type = form.productType.value;
         const brand = form.brandName.value;
+        const rating = form.rating.value;
         const description = form.productDescription.value;
-        const newProduct = {image, name, price, type, brand, description}
+        const newProduct = {image, name, price, type, brand,rating, description}
         console.log(newProduct)
 
         // sending data backend
-        fetch('http://localhost:5000/shop' , {
+        fetch(('http://localhost:5000/shop'),{
             method: "POST",
             headers:{
                 'Content-Type': 'application/json'
@@ -25,6 +27,12 @@ export default function AddCoffee() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+            Swal.fire({
+                title: 'Success!',
+                text: 'Do you want to continue',
+                icon: 'success',
+                confirmButtonText: 'Close'
+              })
         })
         // form.reset();
 
@@ -76,25 +84,39 @@ export default function AddCoffee() {
                   className="select select-bordered w-full"
                 >
                   <option disabled selected>Product Type</option>
-                  <option>Single</option>
+                  <option value="single">Single</option>
                   <option>Variable</option>
                   <option>Affiliate</option>
                 </select>
               </label>
             </div>            
           </div>
-          <div className="form-control">
-            <label className="input-group input-group-vertical">
-              <select
-                name="brandName" 
-                className="select select-bordered w-full"
-              >
-                <option disabled selected>Select Brand Name</option>
-                <option>Apex</option>
-                <option>Bata</option>
-                <option>Lotto</option>
-              </select>
-            </label>
+          <div className="flex gap-6">
+            <div className="form-control  w-1/2">
+                <label className="input-group input-group-vertical">
+                <select
+                    name="brandName" 
+                    className="select select-bordered w-full"
+                >
+                    <option disabled selected>Select Brand Name</option>
+                    <option value="apex">Apex</option>
+                    <option value="bata">Bata</option>
+                    <option value="lotto">Lotto</option>
+                </select>
+                </label>
+            </div>
+            <div className="form-control  w-1/2">
+              <label className="input-group input-group-vertical">
+              <input 
+                type="number" 
+                id="rating" 
+                name="rating" 
+                min="1" max="5" 
+                step="0.1" 
+                placeholder="Rating"
+                className="input input-bordered"/>
+              </label>
+            </div>
           </div>
           <div className="form-control">
             <label className="input-group input-group-vertical">

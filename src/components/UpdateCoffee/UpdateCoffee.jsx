@@ -1,19 +1,43 @@
 import React from 'react'
+import { useLoaderData } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function UpdateCoffee() {
+
+    const productLoader = useLoaderData();
+    const {image, name, price, type, brand, rating, description} = productLoader;
 
     const handleUpdateProduct = (e) => {
         e.preventDefault();
         const form = e.target;
-        const image = form.productImage.value;
-        const name = form.productTitle.value;
+        const image = form.image.value;
+        const name = form.name.value;
         const price = form.price.value;
-        const type = form.productType.value;
-        const brand = form.brandName.value;
-        const description = form.productDescription.value;
-        const updateProduct = {image, name, price, type, brand, description}
+        const type = form.type.value;
+        const brand = form.brand.value;
+        const rating = form.rating.value;
+        const description = form.description.value;
+        const updateProduct = {image, name, price, type, brand, rating, description};
         console.log(updateProduct)
         form.reset();
+
+        fetch((`http://localhost:5173/product/${id}`),{
+            method: "PUT",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateProduct)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            Swal.fire({
+                title: 'Success!',
+                text: 'Do you want to continue',
+                icon: 'success',
+                confirmButtonText: 'Close'
+              })
+        })
     };
 
   return (
@@ -26,8 +50,9 @@ export default function UpdateCoffee() {
               <label className="input-group input-group-vertical">
                 <input
                   type="text"
-                  name="productTitle" 
+                  name="name" 
                   placeholder="Product Title"
+                  defaultValue={name}
                   className="input input-bordered"
                 />
               </label>
@@ -36,8 +61,9 @@ export default function UpdateCoffee() {
               <label className="input-group input-group-vertical">
                 <input
                   type="text"
-                  name="productImage" 
+                  name="image" 
                   placeholder="Product Image"
+                  defaultValue={image}
                   className="input input-bordered"
                 />
               </label>
@@ -51,6 +77,7 @@ export default function UpdateCoffee() {
                   type="text"
                   name="price" 
                   placeholder="Price"
+                  defaultValue={price}
                   className="input input-bordered"
                 />
               </label>
@@ -62,31 +89,47 @@ export default function UpdateCoffee() {
                   className="select select-bordered w-full"
                 >
                   <option disabled selected>Product Type</option>
-                  <option>Single</option>
-                  <option>Variable</option>
-                  <option>Affiliate</option>
+                  <option value="single">Single</option>
+                  <option value="variable">Variable</option>
+                  <option value="affiliate">Affiliate</option>
                 </select>
               </label>
             </div>            
           </div>
-          <div className="form-control">
-            <label className="input-group input-group-vertical">
-              <select
-                name="brandName" 
-                className="select select-bordered w-full"
-              >
-                <option disabled selected>Select Brand Name</option>
-                <option>Apex</option>
-                <option>Bata</option>
-                <option>Lotto</option>
-              </select>
-            </label>
+          <div className="flex gap-6">
+            <div className="form-control  w-1/2">
+                <label className="input-group input-group-vertical">
+                <select
+                    name="brandName" 
+                    className="select select-bordered w-full"
+                >
+                    <option disabled selected>Select Brand Name</option>
+                    <option value="apex">Apex</option>
+                    <option value="bata">Bata</option>
+                    <option value="lotto">Lotto</option>
+                </select>
+                </label>
+            </div>
+            <div className="form-control  w-1/2">
+              <label className="input-group input-group-vertical">
+              <input 
+                type="number" 
+                id="rating" 
+                name="rating" 
+                min="1" max="5" 
+                step="0.1" 
+                placeholder="Rating"
+                defaultValue={rating}
+                className="input input-bordered"/>
+              </label>
+            </div>
           </div>
           <div className="form-control">
             <label className="input-group input-group-vertical">
               <textarea
-                name="productDescription"
+                name="description"
                 placeholder="Product short description"
+                defaultValue={description}
                 className="textarea textarea-bordered textarea-lg w-full"
               ></textarea>
             </label>

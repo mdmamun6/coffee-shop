@@ -10,6 +10,7 @@ import Home from './components/Home/Home.jsx';
 import AddCoffee from './components/AddCoffee/AddCoffee.jsx';
 import UpdateCoffee from './components/UpdateCoffee/UpdateCoffee.jsx';
 import Shop from './components/Shop/Shop.jsx';
+import Bata from './components/Bata/Bata.jsx';
 
 const router = createBrowserRouter([
   {
@@ -26,12 +27,17 @@ const router = createBrowserRouter([
         loader: () => fetch('http://localhost:5000/shop')
       },
       {
+        path: '/bata/:brandName',
+        element: <Bata></Bata>,
+      },
+      {
         path: '/addnewproduct',
         element: <AddCoffee></AddCoffee>
       },
       {
-        path: '/updateproduct',
-        element: <UpdateCoffee></UpdateCoffee>
+        path: '/product/:id',
+        element: <UpdateCoffee></UpdateCoffee>,
+        loader: ({params}) => fetch(`http://localhost:5173/updateproduct/${params.id}`)
       },
     ]
   },
