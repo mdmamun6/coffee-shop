@@ -18,20 +18,19 @@ export default function Home() {
   return (
     <div>
       <h2 className="text-3xl">Home</h2>
-        <div className='grid gap-6 grid-cols-3'>
+        <div className='grid gap-6 md:grid-cols-3'>
         {
           brands.map(brand => (
-              <div className="card  bg-white shadow-xl">
-                <figure className="px-10 pt-10">
-                  <img src={brand?.img} alt="Shoes" className="rounded-xl" />
+            <NavLink to={`/brand/${brand?.name?.toLowerCase()}`}>
+              <div className="card  bg-white shadow-xl rounded-md">
+                <figure className="px-5 pt-5">
+                  <img src={brand?.img} alt="image" className="w-full h-60 rounded-sm" />
                 </figure>
-                <div className="card-body items-center text-center">
-                  <h2 className="card-title">{brand.name}</h2>
-                  <div className="card-actions">
-                    <NavLink to={`/bata/${brand?.name?.toLowerCase()}`}><button className="btn btn-primary">Buy Now</button></NavLink>
-                  </div>
+                <div className="card-body  text-left">
+                  <h2 className="card-title text-left">{brand.name}</h2>
                 </div>
               </div>
+            </NavLink>
           ))
         }
         </div>

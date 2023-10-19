@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Swal from 'sweetalert2'
 import 'swiper/css';
 
-export default function Bata() {
+export default function Brands() {
 
     const [brands, setBrands] = useState([]);
     const [brandimg, setBrandImg] = useState([]);

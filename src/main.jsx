@@ -7,10 +7,10 @@ import {
 import App from './App.jsx'
 import './index.css'
 import Home from './components/Home/Home.jsx';
-import AddCoffee from './components/AddCoffee/AddCoffee.jsx';
-import UpdateCoffee from './components/UpdateCoffee/UpdateCoffee.jsx';
+import AddProducts from './components/AddProducts/AddProducts.jsx';
+import UpdateProducts from './components/UpdateProducts/UpdateProducts.jsx';
+import Brands from './components/Brands/Brands.jsx';
 import Shop from './components/Shop/Shop.jsx';
-import Bata from './components/Bata/Bata.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,16 +27,16 @@ const router = createBrowserRouter([
         loader: () => fetch('http://localhost:5000/shop')
       },
       {
-        path: '/bata/:brandName',
-        element: <Bata></Bata>,
+        path: '/brand/:brandName',
+        element: <Brands></Brands>,
       },
       {
         path: '/addnewproduct',
-        element: <AddCoffee></AddCoffee>
+        element: <AddProducts></AddProducts>
       },
       {
-        path: '/product/:id',
-        element: <UpdateCoffee></UpdateCoffee>,
+        path: '/products/:id',
+        element: <UpdateProducts></UpdateProducts>,
         loader: ({params}) => fetch(`http://localhost:5173/updateproduct/${params.id}`)
       },
     ]

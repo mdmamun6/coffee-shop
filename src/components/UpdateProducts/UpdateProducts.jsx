@@ -1,28 +1,32 @@
-import React from 'react';
-import Swal from 'sweetalert2'
+import React from 'react'
+import { useLoaderData } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-export default function AddCoffee() {
+export default function UpdateProducts() {
 
-    const handleAddProduct = (e) => {
+    const productLoader = useLoaderData();
+    const {image, name, price, type, brand, rating, description} = productLoader;
+
+    const handleUpdateProduct = (e) => {
         e.preventDefault();
         const form = e.target;
-        const image = form.productImage.value;
-        const name = form.productTitle.value;
+        const image = form.image.value;
+        const name = form.name.value;
         const price = form.price.value;
-        const type = form.productType.value;
-        const brand = form.brandName.value;
+        const type = form.type.value;
+        const brand = form.brand.value;
         const rating = form.rating.value;
-        const description = form.productDescription.value;
-        const newProduct = {image, name, price, type, brand,rating, description}
-        console.log(newProduct)
+        const description = form.description.value;
+        const updateProduct = {image, name, price, type, brand, rating, description};
+        console.log(updateProduct)
+        form.reset();
 
-        // sending data backend
-        fetch(('http://localhost:5000/shop'),{
-            method: "POST",
+        fetch((`http://localhost:5173/products/${id}`),{
+            method: "PUT",
             headers:{
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newProduct)
+            body: JSON.stringify(updateProduct)
         })
         .then(res => res.json())
         .then(data => {
@@ -34,22 +38,21 @@ export default function AddCoffee() {
                 confirmButtonText: 'Close'
               })
         })
-        // form.reset();
-
     };
 
   return (
     <div>
-      <h2 className="font-bold text-3xl pb-10">Add Coffee</h2>
-      <form onSubmit={handleAddProduct}>
-      <div className="space-y-5">
+      <h2 className="font-bold text-3xl">Update Product</h2>
+      <form onSubmit={handleUpdateProduct}>
+        <div className="space-y-5">
           <div className="flex gap-6">
             <div className="form-control w-1/2">
               <label className="input-group input-group-vertical">
                 <input
                   type="text"
-                  name="productTitle" 
+                  name="name" 
                   placeholder="Product Title"
+                  defaultValue={name}
                   className="input input-bordered"
                 />
               </label>
@@ -58,8 +61,9 @@ export default function AddCoffee() {
               <label className="input-group input-group-vertical">
                 <input
                   type="text"
-                  name="productImage" 
+                  name="image" 
                   placeholder="Product Image"
+                  defaultValue={image}
                   className="input input-bordered"
                 />
               </label>
@@ -73,6 +77,7 @@ export default function AddCoffee() {
                   type="text"
                   name="price" 
                   placeholder="Price"
+                  defaultValue={price}
                   className="input input-bordered"
                 />
               </label>
@@ -85,8 +90,8 @@ export default function AddCoffee() {
                 >
                   <option disabled selected>Product Type</option>
                   <option value="single">Single</option>
-                  <option>Variable</option>
-                  <option>Affiliate</option>
+                  <option value="variable">Variable</option>
+                  <option value="affiliate">Affiliate</option>
                 </select>
               </label>
             </div>            
@@ -99,9 +104,11 @@ export default function AddCoffee() {
                     className="select select-bordered w-full"
                 >
                     <option disabled selected>Select Brand Name</option>
-                    <option value="apex">Apex</option>
-                    <option value="bata">Bata</option>
-                    <option value="lotto">Lotto</option>
+                    <option value="nike">Nike</option>
+                    <option value="adidas">Adidas</option>
+                    <option value="gucci">Gucci</option>
+                    <option value="h&m">H&M</option>
+                    <option value="levi">Levi</option>
                 </select>
                 </label>
             </div>
@@ -114,6 +121,7 @@ export default function AddCoffee() {
                 min="1" max="5" 
                 step="0.1" 
                 placeholder="Rating"
+                defaultValue={rating}
                 className="input input-bordered"/>
               </label>
             </div>
@@ -121,15 +129,16 @@ export default function AddCoffee() {
           <div className="form-control">
             <label className="input-group input-group-vertical">
               <textarea
-                name="productDescription"
+                name="description"
                 placeholder="Product short description"
+                defaultValue={description}
                 className="textarea textarea-bordered textarea-lg w-full"
               ></textarea>
             </label>
           </div>
-          <input type="submit" className="btn text-white w-full btn-primary" value="Add New Product" />
+          <input type="submit" className="btn text-white w-full btn-primary" value="Update" />
         </div>
       </form>
     </div>
-  );
+  )
 }
